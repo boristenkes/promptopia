@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
+import Link from 'next/link';
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 
 export default function Nav() {
-	const { data: session } = useSession()
+	const { data: session } = useSession();
 
-	const [providers, setProviders] = useState(null)
-	const [toggleDropdown, setToggleDropdown] = useState(false)
+	const [providers, setProviders] = useState(null);
+	const [toggleDropdown, setToggleDropdown] = useState(false);
 
 	useEffect(() => {
-		;(async () => {
-			const response = await getProviders()
-			setProviders(response)
-		})()
-	}, [])
+		(async () => {
+			const response = await getProviders();
+			setProviders(response);
+		})();
+	}, []);
 
 	return (
 		<nav className='flex-between w-full mb-16 pt-3'>
@@ -51,7 +51,11 @@ export default function Nav() {
 						>
 							Sign Out
 						</button>
-						<Link href='/profile'>
+						<Link
+							href={`/profile/${session?.user.id}?name=${session?.user.name
+								.replaceAll(' ', '')
+								.toLowerCase()}`}
+						>
 							<Image
 								src={session?.user.image}
 								width={37}
@@ -94,7 +98,9 @@ export default function Nav() {
 						{toggleDropdown && (
 							<div className='dropdown'>
 								<Link
-									href='/profile'
+									href={`/profile/${session?.user.id}?name=${session?.user.name
+										.replaceAll(' ', '')
+										.toLowerCase()}`}
 									className='dropdown_link'
 									onClick={() => setToggleDropdown(false)}
 								>
@@ -110,8 +116,8 @@ export default function Nav() {
 								<button
 									type='button'
 									onClick={() => {
-										setToggleDropdown(false)
-										signOut()
+										setToggleDropdown(false);
+										signOut();
 									}}
 									className='mt-5 w-full black_btn'
 								>
@@ -137,5 +143,5 @@ export default function Nav() {
 				)}
 			</div>
 		</nav>
-	)
+	);
 }
