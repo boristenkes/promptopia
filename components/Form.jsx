@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
 export default function Form({
 	type,
@@ -75,5 +75,5 @@ export default function Form({
 				</div>
 			</form>
 		</section>
-	);
+	)
 }

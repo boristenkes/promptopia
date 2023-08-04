@@ -1,4 +1,4 @@
-import Feed from '@components/Feed';
+import Feed from '@components/Feed'
 
 export default function Home() {
 	return (
@@ -14,5 +14,5 @@ export default function Home() {
 
 			<Feed />
 		</section>
-	);
+	)
 }

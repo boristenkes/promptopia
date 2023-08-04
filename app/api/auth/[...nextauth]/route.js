@@ -1,8 +1,8 @@
-import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
+import NextAuth from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
 
-import { connectToDB } from '@utils/database';
-import User from '@models/user';
+import { connectToDB } from '@utils/database'
+import User from '@models/user'
 
 const handler = NextAuth({
 	providers: [
@@ -15,18 +15,18 @@ const handler = NextAuth({
 		async session({ session }) {
 			const sessionUser = await User.findOne({
 				email: session.user.email
-			});
+			})
 
-			session.user.id = String(sessionUser._id);
+			session.user.id = String(sessionUser._id)
 
-			return session;
+			return session
 		},
 		async signIn({ profile }) {
 			try {
-				await connectToDB();
+				await connectToDB()
 
 				// check if user exists in db
-				const userExists = await User.findOne({ email: profile.email });
+				const userExists = await User.findOne({ email: profile.email })
 
 				// if not, create a new user
 				if (!userExists) {
@@ -34,16 +34,16 @@ const handler = NextAuth({
 						email: profile.email,
 						username: profile.name.replaceAll(' ', '').toLowerCase(),
 						image: profile.picture
-					});
+					})
 				}
 
-				return true;
+				return true
 			} catch (error) {
-				console.error('Error checking if user exists: ' + error.message);
-				return false;
+				console.error('Error checking if user exists: ' + error.message)
+				return false
 			}
 		}
 	}
-});
+})
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }
