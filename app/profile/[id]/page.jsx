@@ -28,7 +28,6 @@ export default function ProfilePage({ params }) {
 		if (!confirmed) return;
 
 		try {
-			console.log(post);
 			await fetch(`../api/prompt/${String(post._id)}`, {
 				method: 'DELETE'
 			});
